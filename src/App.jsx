@@ -15,8 +15,17 @@ function App() {
     <div className="page">
       <header className="hero">
         <p className="hero__eyebrow">Portfolio</p>
-        <p className="hero__furigana">きくち　しょうた</p>
-        <h1 className="hero__name">菊地　祥太</h1>
+        <h1 className="hero__name">
+          <ruby>
+            菊地
+            <rt className="hero__furigana">きくち</rt>
+          </ruby>
+          {'　'}
+          <ruby>
+            祥太
+            <rt className="hero__furigana">しょうた</rt>
+          </ruby>
+        </h1>
         <p className="hero__catch">
           生成AIを活用したソフトウェア開発。要件定義から実装・運用まで、一気通貫で対応します。
         </p>
