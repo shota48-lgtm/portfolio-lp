@@ -3,7 +3,7 @@ import './App.css'
 import { projects } from './data/projects.js'
 import ProjectCard from './components/ProjectCard.jsx'
 
-const CROWDWORKS_URL = 'https://crowdworks.jp/'
+const CROWDWORKS_URL = 'https://crowdworks.jp/public/employees/7100072'
 
 function App() {
   const categories = useMemo(
@@ -15,7 +15,8 @@ function App() {
     <div className="page">
       <header className="hero">
         <p className="hero__eyebrow">Portfolio</p>
-        <h1 className="hero__name">菊地祥太</h1>
+        <p className="hero__furigana">きくち　しょうた</p>
+        <h1 className="hero__name">菊地　祥太</h1>
         <p className="hero__catch">
           生成AIを活用したソフトウェア開発。要件定義から実装・運用まで、一気通貫で対応します。
         </p>
@@ -54,6 +55,7 @@ function App() {
       <section className="section section--cta" aria-label="お問い合わせ">
         <h2 className="section__title">お仕事のご相談</h2>
         <p className="cta__text">クラウドワークスにて受発注しています。まずはお気軽にご相談ください。</p>
+        <p className="cta__handle">クラウドワークスでは Tofu_shota48 として活動しています</p>
         <a className="cta__button" href={CROWDWORKS_URL} target="_blank" rel="noreferrer">
           クラウドワークスで相談する
         </a>
