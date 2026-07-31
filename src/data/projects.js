@@ -17,10 +17,10 @@ export const projects = [
   },
   {
     title: "style-diagnosis-app",
-    category: ["Webアプリ", "AI活用"],
-    summary: "AIがコーディネートを提案し、実商品の購入URLまで提示するスタイル診断アプリ。",
-    tech: ["Next.js"],
-    url: null,
-    status: "開発中",
+    category: ["Webアプリ", "外部API連携"],
+    summary: "パーソナルカラーと骨格の診断結果から、楽天市場APIで実在の商品を検索し、トップス・ボトムス・シューズの3点でコーディネートを提案。",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "楽天市場API"],
+    url: "https://style-diagnosis-app.vercel.app",
+    status: "本番稼働中",
   },
 ]
