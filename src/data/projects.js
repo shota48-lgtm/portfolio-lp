@@ -49,6 +49,10 @@ export const profile = {
   crowdworksHandle: "Tofu_shota48",
 };
 
+// stats の出典
+//   3  = 本番稼働中のアプリ数（ec-app / reservation-app / style-diagnosis-app）
+//   89 = style-diagnosis-app の vitest 通過テスト件数
+//   7  = ec-app の Supabase Edge Functions の関数数
 export const stats = [
   { num: "3", label: "公開中のアプリ" },
   { num: "89", label: "自動テスト" },
