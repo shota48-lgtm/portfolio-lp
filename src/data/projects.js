@@ -8,6 +8,7 @@ export const projects = [
     tech: ["React", "Vite", "Supabase", "Stripe"],
     image: "/works/ec-app.jpg",
     url: "https://ec-app-seven.vercel.app",
+    github: "https://github.com/shota48-lgtm/ec-app",
     status: "本番稼働中",
   },
   {
@@ -19,6 +20,7 @@ export const projects = [
     tech: ["React", "Vite", "Supabase", "Tailwind CSS"],
     image: "/works/reservation-app.jpg",
     url: "https://reservation-app-omega-blond.vercel.app",
+    github: "https://github.com/shota48-lgtm/reservation-app",
     status: "本番稼働中",
   },
   {
@@ -30,6 +32,19 @@ export const projects = [
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "楽天市場API"],
     image: "/works/style-diagnosis-app.jpg",
     url: "https://style-diagnosis-app.vercel.app",
+    github: "https://github.com/shota48-lgtm/style-diagnosis-app",
+    status: "本番稼働中",
+  },
+  {
+    title: "就業規則の質問応答システム",
+    repo: "rag-kitei-qa",
+    category: ["AI・文書検索"],
+    summary:
+      "就業規則について質問すると、根拠となる条文を示して回答します。規程に書かれていないことには無理に答えない設計で、答えの正確さは50問の評価で測って公開しています。",
+    tech: ["Python", "Streamlit", "FAISS", "Gemini API"],
+    image: "/works/rag-kitei-qa.jpg",
+    url: "https://rag-kitei-demo.streamlit.app/",
+    github: "https://github.com/shota48-lgtm/rag-kitei-qa",
     status: "本番稼働中",
   },
 ];
@@ -50,11 +65,11 @@ export const profile = {
 };
 
 // stats の出典
-//   3  = 本番稼働中のアプリ数（ec-app / reservation-app / style-diagnosis-app）
+//   4  = 本番稼働中のアプリ数（ec-app / reservation-app / style-diagnosis-app / rag-kitei-qa）
 //   89 = style-diagnosis-app の vitest 通過テスト件数
 //   7  = ec-app の Supabase Edge Functions の関数数
 export const stats = [
-  { num: "3", label: "公開中のアプリ" },
+  { num: "4", label: "公開中のアプリ" },
   { num: "89", label: "自動テスト" },
   { num: "7", label: "決済まわりの処理" },
 ];
