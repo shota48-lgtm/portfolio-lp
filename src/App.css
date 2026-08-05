@@ -239,14 +239,25 @@
   border-radius: 4px;
   padding: 3px 8px;
 }
+.work__links {
+  display: flex;
+  gap: 14px;
+  margin: 9px 0 0;
+}
 .work__link {
   display: inline-block;
-  margin: 9px 0 0;
   font-size: 11.5px;
   color: var(--accent);
-  align-self: flex-start;
+  text-decoration: none;
 }
-.work:focus-visible {
+.work__link:hover {
+  text-decoration: underline;
+}
+.work__thumb-link {
+  display: block;
+}
+.work__thumb-link:focus-visible,
+.work__link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: var(--radius);
