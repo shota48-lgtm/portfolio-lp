@@ -57,7 +57,7 @@ export const profile = {
   ],
   role: "Webエンジニア",
   catch:
-    "決済・予約・データ管理を含むWebアプリを、要件定義から公開まで一人で作ります。",
+    "決済・予約・AIによる文書検索まで、Webアプリを要件定義から公開まで一人で作ります。",
   lead:
     "「動いています」ではなく、実行結果とテストの通過を証拠として提示します。手戻りの原因になる認識のズレを、着手前の設計段階で潰します。",
   crowdworksUrl: "https://crowdworks.jp/public/employees/7100072",
@@ -67,6 +67,10 @@ export const profile = {
 // stats の出典
 //   4  = 本番稼働中のアプリ数（ec-app / reservation-app / style-diagnosis-app / rag-kitei-qa）
 //   89 = style-diagnosis-app の vitest 通過テスト件数
+//        （rag-kitei-qa の pytest 14件は合算しない。2026-08-05 PO判断:
+//          合算すると出典が「全プロジェクト合計」となり数字の意味が曖昧になる。
+//          89 は1プロジェクトでのテスト密度の証明であり、合算すると平均値に見えて弱くなる。
+//          reservation-app 分を含めるか等、数え方に判断が必要になる指標は指標として弱い）
 //   7  = ec-app の Supabase Edge Functions の関数数
 export const stats = [
   { num: "4", label: "公開中のアプリ" },
