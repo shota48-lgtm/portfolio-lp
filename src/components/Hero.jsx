@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { profile, stats } from '../data/projects.js'
 
-// ヒーローの立体配置に使う3枚(手前が最新作 ablens。J156:
-// 作品のスクリーンショットこそがポートフォリオの主役の絵)
+// ヒーローの立体配置(手前が最新作 ablens。J156:
+// 作品のスクリーンショットこそがポートフォリオの主役の絵)。
+// 重ねは2枚(案B。J160): 手前の中身が読めることを最優先に手前を拡大し、
+// 「まだある」ことは奥1枚とラベル、直下の作品一覧で伝える
 const STACK = [
-  { src: '/works/reservation-app.png', pos: 'back' },
-  { src: '/works/ec-app.png', pos: 'mid' },
+  { src: '/works/ec-app.png', pos: 'back' },
   { src: '/works/ablens.png', pos: 'front' },
 ]
 
@@ -59,15 +60,15 @@ function BrowserFrame({ src, pos, front }) {
       </div>
       {/* ヒーローの画像は LCP 候補のため loading="lazy" を付けない
           (lazy にすると読み込みが後回しになり LCP が悪化する)。
-          手前の1枚のみ fetchpriority="high" で最優先に読ませる */}
-      <img
-        src={src}
-        width="1280"
-        height="800"
-        alt=""
-        aria-hidden={front ? undefined : 'true'}
-        fetchPriority={front ? 'high' : undefined}
-      />
+          手前の1枚のみ fetchpriority="high" で最優先に読ませる。
+          手前は .shot__crop で要点(A/B数値+判定ブロック)を切り出して拡大表示 */}
+      {front ? (
+        <div className="shot__crop">
+          <img src={src} width="1280" height="800" alt="ablens のテスト結果画面(データ収集中の判定)" fetchPriority="high" />
+        </div>
+      ) : (
+        <img src={src} width="1280" height="800" alt="" aria-hidden="true" />
+      )}
     </div>
   )
 }
@@ -115,8 +116,10 @@ export default function Hero() {
             <span className="grad">AI</span>も決済も、<br />
             ひとりで作る。
           </h1>
+          {/* ヒーローの本文は1段落のみ(作業310)。ファーストビューは
+              3秒で通過する場所であり、2段落は読ませる量として重い。
+              証拠提示の段落(profile.lead)は「依頼できること」へ移設 */}
           <p className="hero__lead">{profile.catch}</p>
-          <p className="hero__lead hero__lead--sub">{profile.lead}</p>
           <div className="hero__actions">
             <a
               className="btn btn--primary"

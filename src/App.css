@@ -87,12 +87,16 @@
   position: relative;
   overflow: hidden;
   /* 背景1層目: メッシュグラデーション。色点は3つまで(4つ以上で濁る)。
-     光の中心を右寄り(76%)に置くのは、そこに作品の立体配置を重ねて
-     作品自体が発光しているように見せるため */
+     2026-08-08 調整(J159): 光は「何を照らすか」に合わせる。
+     - 主光源の中心を縦46%→62%へ下げ、作品の立体配置の位置に合わせる
+       (以前は作品より上を照らし、右上が均一に明るく飛んでいた)
+     - 広がりを62%→46%に絞り、面全体が明るくなるのを防ぐ
+     - transparent の終端を60%→52%に早めて減衰を急にする
+     - 補助光2つも弱め、主光源を目立たせる */
   background:
-    radial-gradient(ellipse 62% 62% at 76% 46%, rgba(251, 113, 133, .32), transparent 60%),
-    radial-gradient(ellipse 50% 44% at 8% 88%, rgba(251, 146, 60, .16), transparent 58%),
-    radial-gradient(ellipse 42% 36% at 96% 6%, rgba(244, 114, 182, .14), transparent 55%);
+    radial-gradient(ellipse 46% 48% at 72% 62%, rgba(251, 113, 133, .30), transparent 52%),
+    radial-gradient(ellipse 40% 36% at 10% 88%, rgba(251, 146, 60, .13), transparent 54%),
+    radial-gradient(ellipse 32% 28% at 94% 14%, rgba(244, 114, 182, .10), transparent 50%);
 }
 /* 背景2層目: グリッドパターン(左側で減衰するマスク) */
 .hero::before {
@@ -184,7 +188,9 @@
   flex-wrap: wrap;
 }
 
-/* ===== ヒーローの立体配置(291-3) ===== */
+/* ===== ヒーローの立体配置(291-3 / 309: 案B=奥1枚+手前拡大) =====
+   手前の中身が読めることを最優先に、重ねは2枚に減らして手前を拡大(J160)。
+   「まだある」ことは奥1枚とラベル、直下の作品一覧で伝わる */
 .hero__visual {
   position: relative;
   perspective: 1300px;
@@ -194,6 +200,8 @@
   min-height: 300px;
   --tilt-x: 0deg;
   --tilt-y: 0deg;
+  --hero-shot-front: 260px; /* モバイル */
+  --hero-shot-back: 190px;
 }
 .shot {
   position: absolute;
@@ -221,31 +229,35 @@
   width: 100%;
   height: auto;
 }
-/* 3枚とも同じ角度(rotateY -19deg / rotateX 5deg)にする。
-   角度を揃えることで3枚が「束」として1つの塊に見える。
+/* 2枚とも同じ角度(rotateY -19deg / rotateX 5deg)にする。
+   角度を揃えることで「束」として1つの塊に見える。
    バラバラの角度にすると散らかって主役が定まらない */
 .shot--back {
-  width: 186px;
-  transform: translate(-96px, -26px)
-    rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x))) scale(.82);
+  width: var(--hero-shot-back);
+  transform: translate(calc(var(--hero-shot-front) * -0.38), -8%)
+    rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x))) scale(.86);
   transform-origin: right center;
-  opacity: .40;
-  box-shadow: var(--shadow-card);
-}
-.shot--mid {
-  width: 198px;
-  transform: translate(-48px, -13px)
-    rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x))) scale(.91);
-  transform-origin: right center;
-  opacity: .68;
+  opacity: .45;
   box-shadow: var(--shadow-card);
 }
 .shot--front {
-  width: 216px;
+  width: var(--hero-shot-front);
   transform: rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x)));
   transform-origin: right center;
   box-shadow: var(--shadow-front);
   border: 1px solid rgba(251, 113, 133, .5); /* 珊瑚の1px枠 */
+}
+/* 手前の1枚は等倍で敷くと1280px幅の画面写真が縮みすぎて文字が潰れる(J160)。
+   要点(A/Bの数値と黄色い判定ブロック)だけを切り出して約1.5倍で見せる */
+.shot--front .shot__crop {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.shot--front .shot__crop img {
+  width: 150%;
+  max-width: none;
+  margin-left: -25%;
+  margin-top: -19%; /* A/Bの数値〜判定ブロックの帯が枠に収まる縦位置 */
 }
 .hero__visual-label {
   position: absolute;
@@ -254,7 +266,9 @@
   font-size: 11px;
   letter-spacing: .14em;
   text-align: right;
-  color: var(--c-text-weak);
+  /* 光源の最輝点(rgb(82,39,46))上に乗るため text-weak(2.98:1)では
+     AA不合格。text-sub なら最輝点上でも 4.85:1(2026-08-08 実測) */
+  color: var(--c-text-sub);
 }
 
 /* ===== 実績数値(291-5) ===== */
@@ -435,6 +449,13 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--c-text-sub);
+  margin-bottom: var(--sp-1);
+}
+.services__lead {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--c-text-weak);
+  max-width: var(--maxw-text);
   margin-bottom: var(--sp-2);
 }
 .services__list {
@@ -506,9 +527,8 @@
     flex: 1;
     min-height: 420px;
   }
-  .shot--back { width: 300px; transform: translate(-150px, -40px) rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x))) scale(.82); }
-  .shot--mid { width: 320px; transform: translate(-76px, -20px) rotateY(calc(-19deg + var(--tilt-y))) rotateX(calc(5deg + var(--tilt-x))) scale(.91); }
-  .shot--front { width: 348px; }
+  /* タブレット(768〜1279px) */
+  .hero__visual { --hero-shot-front: 340px; --hero-shot-back: 260px; }
   .hero__visual-label { right: 24px; bottom: 8px; }
 
   .hero__stats {
@@ -524,6 +544,11 @@
   .card__body { padding: var(--sp-4); }
   .card__summary { font-size: 14px; }
   .bottom-cta { margin-top: var(--sp-8); }
+}
+
+/* PC(1280px〜): 手前をさらに拡大 */
+@media (min-width: 1280px) {
+  .hero__visual { --hero-shot-front: 400px; --hero-shot-back: 300px; }
 }
 
 /* モバイル: 実績は 2×2、CTAは幅100%(最大360px) */
