@@ -1,35 +1,42 @@
-:root {
-  --ink: #1a1a1a;
-  --ink-soft: #5a5a5a;
-  --ink-mute: #9a9a9a;
-  --line: #ececec;
-  --bg: #ffffff;
-  --bg-soft: #f7f8fb;
-  --bg-chip: #f0f1f5;
-  --accent: #4f5bd5;
-  --accent-dark: #3f4ab0;
-  --radius: 10px;
-  --radius-pill: 999px;
-  --sans: system-ui, -apple-system, "Segoe UI", "Hiragino Kaku Gothic ProN",
-    "Yu Gothic", Meiryo, sans-serif;
-}
+@import './styles/tokens.css';
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #3C363A transparent;
+}
+
+/* WebKit のスクロールバーも配色に合わせる(作業295) */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #3C363A; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #575054; }
+
+::selection {
+  background: #FDA4AF;
+  color: #0A0708;
+}
+
+/* :focus-visible を使う理由: :focus だとマウスクリックでもリングが出て
+   煩わしい。focus-visible ならキーボード操作(Tab)のときだけリングが出る。
+   キーボード利用者のフォーカス可視性は保ちつつ、マウス操作を邪魔しない */
+:focus-visible {
+  outline: 2px solid #FDA4AF;
+  outline-offset: 2px;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--c-bg);
+  color: var(--c-text);
   font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.8;
-  letter-spacing: 0.01em;
+  font-size: 14px;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,9 +50,56 @@ a {
   color: inherit;
 }
 
+/* palt(文字詰め)は見出しのみ。本文まで詰めると読みのリズムが崩れて
+   可読性が下がるため、本文はベタ組みのまま */
+h1, h2, h3 {
+  font-feature-settings: "palt" 1;
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+@media (min-width: 768px) {
+  h1 { font-size: 52px; }
+  h2 { font-size: 30px; }
+  h3 { font-size: 18px; }
+}
+
+/* スクロール連動の表示(作業294-1)。
+   初期非表示(opacity:0)は body の is-ready(JSが付与)配下でのみ有効。
+   JS 無効の環境では is-ready が付かず、全コンテンツが最初から見える */
+.is-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s cubic-bezier(.16, 1, .3, 1),
+              transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+.is-ready .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
+  .is-ready .reveal { opacity: 1; transform: none; transition: none; }
+  * { transition: none !important; animation: none !important; }
 }
