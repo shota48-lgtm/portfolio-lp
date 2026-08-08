@@ -53,8 +53,8 @@ export const projects = [
     repo: "rag-kitei-qa",
     category: ["AI・文書検索"],
     summary:
-      "就業規則について質問すると、根拠となる条文を示して回答します。規程に書かれていないことには無理に答えない設計で、答えの正確さは50問の評価で測って公開しています。",
-    tech: ["Python", "Streamlit", "FAISS", "Gemini API"],
+      "就業規則について質問すると、根拠となる条文を示して回答します(RAG)。答えの正確さは50問の評価で測って公開。同じ条文検索は MCP サーバーとしても提供し、AIエージェントから直接呼び出せます。",
+    tech: ["Python", "Streamlit", "FAISS", "Gemini API", "MCP"],
     image: "/works/rag-kitei-qa.png",
     url: "https://rag-kitei-demo.streamlit.app/",
     github: "https://github.com/shota48-lgtm/rag-kitei-qa",
