@@ -56,6 +56,7 @@
   display: flex;
   align-items: center;
   gap: var(--sp-1);
+  text-decoration: none;
 }
 .topbar__avatar {
   width: 28px;
@@ -72,14 +73,88 @@
   font-size: 13px;
   color: var(--c-text-sub);
 }
-.topbar__cta {
+/* ===== アンカーナビ =====
+   開閉は details に持たせ、JavaScript なしで動く。
+   モバイルは summary(ハンバーガー)で開閉し、
+   PC は summary を隠してパネルを常時表示に上書きする。
+   details の子要素は display の指定で表示状態を上書きできる */
+.nav > summary {
+  list-style: none;              /* Chrome/Firefox/Edge の三角を消す */
+  cursor: pointer;
+}
+.nav > summary::-webkit-details-marker { display: none; }  /* Safari 用 */
+
+.nav__toggle {
+  /* タップ領域 44px 以上(WCAG 2.5.5) */
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+}
+.nav__toggle-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18px;
+}
+.nav__toggle-bars i {
+  display: block;
+  height: 1.5px;
+  background: var(--c-text);
+  border-radius: 2px;
+}
+
+/* モバイル: バーの下に開く面。
+   背景は半透明+backdrop-filter でなく、完全な不透明にする。
+   メニューは下のコンテンツを読ませる場所ではないので透かす利得がなく、
+   ヒーローの見出しが透けると項目が読めなくなる。
+   2026-08-10 の撮影では rgba(...,.97)+blur で実際に背後の h1 が透けた
+   (計算値は不透明だったため、backdrop-filter の合成側の問題と判断した)。
+   背景色1色なら、どの環境でも同じ見え方になる */
+.nav__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .5);
+  padding: var(--sp-2) 24px var(--sp-3);
+}
+.nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav__link {
+  display: block;
+  padding: 11px 0;              /* 行の高さ 44px 以上 */
+  font-size: 14px;
+  color: var(--c-text-sub);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav__link:hover { color: var(--c-text); }
+.nav__cta {
+  display: inline-block;
+  margin-top: var(--sp-1);
   font-size: 13px;
   font-weight: 500;
   color: var(--c-bg);
   background: var(--c-accent);
   border-radius: var(--r-pill);
-  padding: 8px 20px;
+  padding: 10px 24px;
   text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.nav__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(251, 113, 133, .32);
 }
 
 /* ===== ヒーロー ===== */
@@ -304,6 +379,29 @@
   letter-spacing: .13em;
   color: var(--c-text-weak);
 }
+/* 数字とラベルだけでは何を数えたのか伝わらないため、説明を1行足す。
+   ラベル(英字)より説明(日本語)の方が実際には読まれるので、
+   色は text-weak でなく text-sub にして一段手前に置く */
+.hero-stat__desc {
+  margin-top: -4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--c-text-sub);
+}
+/* DECISIONS のみリンク。4つ全部を強調すると、どれも強調にならない */
+.hero-stat--link {
+  text-decoration: none;
+  transition: color .15s;
+}
+.hero-stat--link .hero-stat__num,
+.hero-stat--link .hero-stat__label {
+  color: var(--c-accent);
+}
+.hero-stat__more {
+  font-size: 11px;
+  color: var(--c-accent);
+}
+.hero-stat--link:hover .hero-stat__more { text-decoration: underline; }
 
 /* ===== 作品セクション(292) ===== */
 .works-section {
@@ -312,31 +410,29 @@
   padding: var(--sp-6) 24px 0;
 }
 
-.filters {
-  display: flex;
-  gap: var(--sp-1);
-  flex-wrap: wrap;
-  margin-top: var(--sp-3);
-  padding: 0;
-  list-style: none;
+/* カテゴリ絞り込み(.filters)は廃止。作品6件を2グループに分けたことで、
+   絞り込みとグループ分けが同じ「並べ替え」を二重に担う形になっていた。
+   6件はスクロールで全部見える量であり、押さないと全体像が出ないUIは
+   件数が少ないほど損になる */
+
+/* ===== 作品のグループ ===== */
+.works-group {
+  margin-top: var(--sp-5);
 }
-.filter {
-  border: 1px solid var(--c-border);
-  background: transparent;
-  color: var(--c-text-sub);
-  font-family: var(--sans);
-  font-size: 12px;
-  padding: 8px 18px;
-  border-radius: var(--r-pill);
-  cursor: pointer;
-  transition: background-color .15s, color .15s, border-color .15s;
+.works-group__head {
+  border-left: 2px solid var(--c-accent);
+  padding-left: var(--sp-2);
 }
-.filter:hover { border-color: var(--c-accent); }
-.filter[aria-pressed="true"] {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  color: var(--c-bg);
+.works-group__title {
+  font-size: 15px;
   font-weight: 500;
+  line-height: 1.5;
+}
+.works-group__lead {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--c-text-weak);
 }
 
 .works {
@@ -430,6 +526,23 @@
   border-radius: var(--r-sm);
   padding: 2px 9px;
 }
+/* compact で省いた技術タグの件数。枠線を出すと省略が1件の技術に
+   見えるため、枠なしにして「+2」だけを添える */
+.card__tech-more {
+  border: none !important;
+  padding-left: 0 !important;
+}
+
+/* compact(グループ2): カードを小さくする以上、中の要素も減らす。
+   要約は2行で切る。3行目以降は一覧では読まれず、
+   高さだけが揃わなくなる */
+.card--compact .card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .card__links {
   display: flex;
   gap: var(--sp-2);
@@ -441,6 +554,215 @@
   text-decoration: none;
 }
 .card__link:hover { text-decoration: underline; }
+
+/* ===== 折りたたみ(共通) =====
+   details / summary をそのまま使う。JavaScript は要らない。
+   ナビ(.nav)は「閉じているのに開いた見た目にする」ために UA の挙動へ
+   逆らう必要があったが、こちらは素直に畳むだけなので打ち消しは不要。
+
+   開閉のアニメーションは付けない。height:auto は CSS で補間できず、
+   grid-template-rows の手法は中身が常に描画されている前提のため
+   details の隠し方と両立しない。無理に付けると構造が複雑になる。
+
+   details の name 属性(排他アコーディオン)は使わない。
+   1件開くと他が閉じる挙動は、複数を読み比べたい読者の邪魔になる */
+.fold > summary {
+  display: block;          /* 中身にブロック要素を置くため */
+  position: relative;
+  cursor: pointer;
+  list-style: none;        /* Chrome / Firefox / Edge の三角を消す */
+  padding-right: var(--sp-3);  /* V字の幅を空ける */
+}
+/* Safari は独自の疑似要素で三角を描くため、これも別途消す(UI_SPEC 第11章) */
+.fold > summary::-webkit-details-marker { display: none; }
+
+/* 開閉インジケータ。border 2本を45度回した V 字。
+   transition は transform のみに限る(width/height を動かすと
+   再レイアウトが走る。transform は GPU 合成で済む) */
+.fold__chevron {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--c-text-sub);
+  border-bottom: 2px solid var(--c-text-sub);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform .3s ease;
+}
+.fold[open] > summary .fold__chevron {
+  transform: translateY(-20%) rotate(-135deg);
+}
+.fold > summary:hover .fold__chevron {
+  border-color: var(--c-accent);
+}
+
+/* ===== 背景の帯 =====
+   全セクションが同色だと区切りが視覚的に消えるため、一段明るい帯を挟む
+   (UI_SPEC 第7章)。tokens.css は変更せずここで定義する。
+
+   色の決め方: --c-surface(#121014)まで上げると、この帯の中で使う
+   --c-text-weak(#827B75)とのコントラストが 4.54:1 まで落ちて
+   AA の 4.5:1 にほとんど余裕がなくなる。#0F0D0F なら 4.65:1 を保てる。
+   帯として認識できる最小限の差に留め、余裕を残す方を取った */
+.band {
+  --c-band: #0F0D0F;
+  background: var(--c-band);
+  border-block: 1px solid var(--c-border-soft);
+  margin-top: var(--sp-7);
+  padding-block: var(--sp-6);
+}
+/* 帯の中のセクションは自前の上マージンを持たない(帯が余白を持つため) */
+.band > .services { margin-top: var(--sp-6); }
+.band > *:first-child { margin-top: 0; }
+
+/* ===== できること ===== */
+.skills__inner,
+.decisions__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+.skills__lead {
+  margin-top: var(--sp-2);
+  max-width: var(--maxw-text);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--c-text-sub);
+}
+.skills__list {
+  margin-top: var(--sp-4);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+}
+.skill {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+}
+.skill__label {
+  font-size: 15px;
+  font-weight: 500;
+}
+.skill__detail {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--c-text-sub);
+}
+/* 根拠の作品名。この行があることが、この節を他と分ける唯一の点なので、
+   補助情報の見た目にしすぎない(text-weak まで落とさない) */
+.skill__works {
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-1);
+  border-top: 1px dashed var(--c-border-soft);
+  font-size: 12px;
+  color: var(--c-text-sub);
+}
+.skill__works-key {
+  display: inline-block;
+  margin-right: var(--sp-1);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--c-accent);
+}
+.skills__back {
+  margin-top: var(--sp-3);
+  font-size: 12px;
+  color: var(--c-text-sub);
+}
+.skills__back a { color: var(--c-accent); }
+
+/* ===== 判断の記録 =====
+   文章量があるため本文は16px。他の節(14px)より大きくするのは、
+   ここだけ「読ませる」節だから(UI_SPEC 第3章の本文16pxに戻す) */
+.decisions__lead {
+  margin-top: var(--sp-2);
+  max-width: var(--maxw-text);
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--c-text-sub);
+}
+.decisions__list {
+  margin-top: var(--sp-4);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+  max-width: var(--maxw-text);
+}
+.decision {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-soft);
+  border-left: 2px solid var(--c-accent);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+}
+.decision__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+.decision__id {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--c-accent);
+  font-feature-settings: "tnum" 1;
+}
+.decision__title {
+  font-size: 15px;
+  font-weight: 500;
+}
+/* 日付と掲載理由。11px + text-weak では 4.54:1 と、AA(4.5:1)を
+   満たしてはいるが余裕が 0.04 しかなかった(2026-08-10 実測)。
+   4.5:1 は 18px未満の文字に対する基準であり、11px はその中でも
+   最も厳しい側にある。基準を通ることと読みやすいことは別なので、
+   サイズを 12px に上げたうえで色も text-sub に上げる。
+   掲載理由は「なぜこの記録を載せたか」という中身であって、
+   装飾ではない。読ませる前提の値にする */
+.decision__meta {
+  margin-top: 5px;
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--c-text-sub);
+}
+.decision__reason::before {
+  content: "— ";
+}
+.decision__body {
+  margin-top: var(--sp-2);
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--c-text);
+}
+/* 折りたたむ側。閉じた状態でも見出しとメタ行は必ず見える。
+   タップ領域はここで 44px 以上を確保する(WCAG 2.5.5)。
+   中身(見出し+メタ)だけで既に超えるが、内容が短くなっても
+   割らないよう min-height を明示しておく */
+.decision__summary {
+  min-height: 44px;
+  padding-block: 2px;
+}
+.decision--fold .decision__body {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--c-border-soft);
+}
+.decisions__more {
+  margin-top: var(--sp-3);
+  max-width: var(--maxw-text);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+}
 
 /* ===== 依頼できること ===== */
 .services {
@@ -514,9 +836,56 @@
   line-height: 1.7;
   color: var(--c-text-weak);
 }
+/* 連絡先の1行。節を作らずここに集約しているため、
+   リンクだけはアクセント色にして拾えるようにする。
+   本文まで明るくすると、フッターが本文として読まれてしまう */
+.foot__contact a {
+  color: var(--c-accent);
+  text-decoration: none;
+}
+.foot__contact a:hover { text-decoration: underline; }
 
 /* ===== PC(768px〜) ===== */
 @media (min-width: 768px) {
+  /* ナビ: ハンバーガーを隠し、パネルを常時表示に上書きする。
+     details の open 状態に関係なく開いた見た目にする。
+     閉じた details の中身をどう隠すかはブラウザで実装が分かれるため、
+     3通りとも打ち消す必要がある(2026-08-10 実測。display の指定だけでは
+     Chrome で幅0になり、ナビがDOMにあるのに描画されなかった):
+       1. display で隠す実装(Firefox / Safari / 旧Chrome) → display を上書き
+       2. content-visibility で隠す実装 → 同プロパティを visible に
+       3. ::details-content 疑似要素を持つ実装(Chrome 131〜) → 同上
+     3 は非対応ブラウザではセレクタごと無視されるため、独立した規則にする */
+  .nav__toggle { display: none; }
+  .nav__panel {
+    position: static;
+    display: block;
+    content-visibility: visible;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .nav__list {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .nav__link { padding: 0; font-size: 13px; }
+  .nav__cta { margin-top: 0; padding: 8px 20px; }
+
+  .works-group { margin-top: var(--sp-6); }
+  .works-group__title { font-size: 18px; }
+  .works-group__lead { font-size: 13px; }
+
+  .band { padding-block: var(--sp-7); }
+  .skills__list { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+  .skills__lead, .decisions__lead { font-size: 14px; }
+  .skill { padding: var(--sp-4); }
+  .decisions__list { gap: var(--sp-3); }
+  .decision { padding: var(--sp-4); }
+  .decision__title { font-size: 17px; }
+
   .hero__inner {
     flex-direction: row;
     align-items: center;
@@ -547,6 +916,17 @@
   .card__body { padding: var(--sp-4); }
   .card__summary { font-size: 14px; }
   .bottom-cta { margin-top: var(--sp-8); }
+}
+
+/* Chrome 131〜 は details の中身を ::details-content で包み、
+   content-visibility: hidden で隠す。子要素側の display 指定では
+   打ち消せないため、疑似要素そのものを開いた状態にする。
+   非対応ブラウザはこの規則ごと無視する(上の display 指定で足りるため問題ない) */
+@media (min-width: 768px) {
+  .nav::details-content {
+    content-visibility: visible;
+    display: contents;
+  }
 }
 
 /* PC(1280px〜): 手前をさらに拡大 */
