@@ -52,12 +52,14 @@ export default function ForRecruiters() {
         <p className="label">FOR RECRUITERS</p>
         <h2>採用のご担当者へ</h2>
 
-        <p className="recruit__status">
-          2026年12月までの転職を目標に活動しています。
-          AI・DX推進、またはフルスタック開発の領域を希望しています。
-        </p>
-
-        <h3 className="recruit__sub">面接前に見ていただきたい3点</h3>
+        {/* 転職の時期と希望領域は書かない。
+            期限は焦っているようにしか読まれず、読む側の判断材料にもならない。
+            希望領域は作品6件が示している。ヒーローのコピーを変えたのと
+            同じ理由で、作品が示していることを言葉で重ねない。
+            節の名前が「採用のご担当者へ」である時点で用件は伝わっている */}
+        <h3 className="recruit__sub recruit__sub--first">
+          面接前に見ていただきたい3点
+        </h3>
         <ul className="recruit__points">
           {POINTS.map((p) => (
             <li key={p.title}>
