@@ -4,10 +4,14 @@
 // 「主要 / そのほか」で分けない。後者は受注を検討する読者にとって
 // 判断材料になる4件であり、格下げして見せる理由がない。
 // 領域が違うという並びなら、どちらも下がらない。
+//
+// short: 他の節から作品を指すときの短い呼び名。title は長すぎ、
+// repo はリポジトリ名であって作品名ではないため、別に持たせる。
 export const projects = [
   {
     title: "LLM出力の回帰テスト基盤 aegis",
     repo: "aegis",
+    short: "aegis",
     group: "measure",
     summary:
       "問い合わせを仕分けし返信の下書きを作る一次対応ツール。毎回変わるLLMの出力に回帰テストをかけ、精度が基準から落ちたらCIで止めます。合成データと実データで精度が53.6ポイント違い、その原因まで測って公開しています。",
@@ -21,6 +25,7 @@ export const projects = [
   {
     title: "ABテスト基盤 ablens",
     repo: "ablens",
+    short: "ablens",
     group: "measure",
     summary:
       "LPのA/Bテストを配信から統計判定まで一気通貫で行う自作基盤。サンプル数が足りないうちは判定を出さない設計で、判定の根拠をすべて画面で示します。",
@@ -33,6 +38,7 @@ export const projects = [
   {
     title: "デジタル商品の販売サイト",
     repo: "ec-app",
+    short: "販売サイト",
     group: "app",
     summary:
       "カード決済つきの販売サイト。購入から返金まで一通り動きます。カード情報は自社サーバーを経由しない構成です。",
@@ -45,6 +51,7 @@ export const projects = [
   {
     title: "サロン予約管理",
     repo: "reservation-app",
+    short: "予約管理",
     group: "app",
     summary:
       "予約する側は会員登録なしで使えます。店側だけが顧客情報を見られる権限設計にしています。",
@@ -57,6 +64,7 @@ export const projects = [
   {
     title: "スタイル診断アプリ",
     repo: "style-diagnosis-app",
+    short: "スタイル診断",
     group: "app",
     summary:
       "13問の診断結果から、外部APIで実在の商品を検索して提案します。成立しない手法は検証記録を残して不採用にしました。",
@@ -69,6 +77,7 @@ export const projects = [
   {
     title: "就業規則の質問応答システム",
     repo: "rag-kitei-qa",
+    short: "就業規則QA",
     group: "app",
     summary:
       "就業規則について質問すると、根拠となる条文を示して回答します(RAG)。答えの正確さは50問の評価で測って公開。同じ条文検索は MCP サーバーとしても提供し、AIエージェントから直接呼び出せます。",
