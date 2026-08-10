@@ -1,5 +1,18 @@
 export const projects = [
   {
+    title: "LLM出力の回帰テスト基盤 aegis",
+    repo: "aegis",
+    category: ["AI・品質保証"],
+    summary:
+      "問い合わせを仕分けし返信の下書きを作る一次対応ツール。毎回変わるLLMの出力に回帰テストをかけ、精度が基準から落ちたらCIで止めます。合成データと実データで精度が53.6ポイント違い、その原因まで測って公開しています。",
+    tech: ["Python", "llama.cpp", "Qwen2.5-7B", "GitHub Actions"],
+    image: "/works/aegis.png",
+    url: "https://aegis-one-neon.vercel.app",
+    github: "https://github.com/shota48-lgtm/aegis",
+    status: "本番稼働中",
+    latest: true,
+  },
+  {
     title: "ABテスト基盤 ablens",
     repo: "ablens",
     category: ["A/Bテスト・計測"],
@@ -10,7 +23,6 @@ export const projects = [
     url: "https://ablens.vercel.app/demo",
     github: "https://github.com/shota48-lgtm/ablens",
     status: "本番稼働中",
-    latest: true,
   },
   {
     title: "デジタル商品の販売サイト",
@@ -73,19 +85,23 @@ export const profile = {
   crowdworksHandle: "Tofu_shota48",
 };
 
-// stats の出典(2026-08-08 実測)
-//   5   = 本番稼働中のアプリ数(ablens / ec-app / reservation-app /
+// stats の出典(2026-08-10 実測。aegis の追加に伴い再計測)
+//   6   = 本番稼働中のアプリ数(aegis / ablens / ec-app / reservation-app /
 //         style-diagnosis-app / rag-kitei-qa)
 //   182 = ablens の自動テスト件数(単体168 + 統合14。npm run test:all の実行結果)
-//   115 = 判断記録の件数(開発ルートの JUDGMENT_HEURISTICS.md 88件 +
+//         aegis には単体テストが存在しないため増えていない。
+//         回帰検出は持つが別の指標であり、数字を増やすために定義を変えない。
+//   161 = 判断記録の件数(開発ルートの JUDGMENT_HEURISTICS.md 134件 +
 //         style-diagnosis-app 側で凍結された J1〜J27 の27件。
-//         Select-String '^## J\d+' での実測)
-//   5   = 対応ドメイン数(決済 / 予約 / 外部API / AI文書検索 / A/Bテスト計測)
+//         前者は Select-String '^## J\d+'、後者は '^### J\d+' での実測。
+//         見出しの階層が両者で異なるため、同じパターンでは数えられない)
+//   6   = 対応ドメイン数(決済 / 予約 / 外部API / AI文書検索 / A/Bテスト計測 /
+//         AI品質保証)
 export const stats = [
-  { num: 5, label: "PRODUCTS" },
+  { num: 6, label: "PRODUCTS" },
   { num: 182, label: "TESTS" },
-  { num: 115, label: "DECISIONS" },
-  { num: 5, label: "DOMAINS" },
+  { num: 161, label: "DECISIONS" },
+  { num: 6, label: "DOMAINS" },
 ];
 
 export const services = [

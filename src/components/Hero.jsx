@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { profile, stats } from '../data/projects.js'
 
-// ヒーローの立体配置(手前が最新作 ablens。J156:
+// ヒーローの立体配置(手前が最新作 aegis。J156:
 // 作品のスクリーンショットこそがポートフォリオの主役の絵)。
 // 重ねは2枚(案B。J160): 手前の中身が読めることを最優先に手前を拡大し、
 // 「まだある」ことは奥1枚とラベル、直下の作品一覧で伝える
 const STACK = [
   { src: '/works/ec-app.png', pos: 'back' },
-  { src: '/works/ablens.png', pos: 'front' },
+  { src: '/works/aegis.png', pos: 'front' },
 ]
 
 function useCountUp(ref, target) {
@@ -64,7 +64,7 @@ function BrowserFrame({ src, pos, front }) {
           手前は .shot__crop で要点(A/B数値+判定ブロック)を切り出して拡大表示 */}
       {front ? (
         <div className="shot__crop">
-          <img src={src} width="1280" height="800" alt="ablens のテスト結果画面(データ収集中の判定)" fetchPriority="high" />
+          <img src={src} width="1280" height="800" alt="aegis の承認画面。AIが生成した箇所に色が付いた返信の下書きと、「要確認」の判定" fetchPriority="high" />
         </div>
       ) : (
         <img src={src} width="1280" height="800" alt="" aria-hidden="true" />
@@ -110,7 +110,7 @@ export default function Hero() {
     <header className="hero">
       <div className="hero__inner">
         <div className="hero__text">
-          <p className="hero__label">5 PRODUCTS SHIPPED</p>
+          <p className="hero__label">6 PRODUCTS SHIPPED</p>
           <h1 className="hero__title">
             {/* AI のみグラデーションテキスト。@supports フォールバックはCSS側 */}
             <span className="grad">AI</span>も決済も、<br />
@@ -139,7 +139,7 @@ export default function Hero() {
           {STACK.map((s) => (
             <BrowserFrame key={s.src} src={s.src} pos={s.pos} front={s.pos === 'front'} />
           ))}
-          <p className="hero__visual-label" aria-hidden="true">05 / ABLENS</p>
+          <p className="hero__visual-label" aria-hidden="true">06 / AEGIS</p>
         </div>
       </div>
 
