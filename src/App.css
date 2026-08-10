@@ -555,6 +555,48 @@
 }
 .card__link:hover { text-decoration: underline; }
 
+/* ===== 折りたたみ(共通) =====
+   details / summary をそのまま使う。JavaScript は要らない。
+   ナビ(.nav)は「閉じているのに開いた見た目にする」ために UA の挙動へ
+   逆らう必要があったが、こちらは素直に畳むだけなので打ち消しは不要。
+
+   開閉のアニメーションは付けない。height:auto は CSS で補間できず、
+   grid-template-rows の手法は中身が常に描画されている前提のため
+   details の隠し方と両立しない。無理に付けると構造が複雑になる。
+
+   details の name 属性(排他アコーディオン)は使わない。
+   1件開くと他が閉じる挙動は、複数を読み比べたい読者の邪魔になる */
+.fold > summary {
+  display: block;          /* 中身にブロック要素を置くため */
+  position: relative;
+  cursor: pointer;
+  list-style: none;        /* Chrome / Firefox / Edge の三角を消す */
+  padding-right: var(--sp-3);  /* V字の幅を空ける */
+}
+/* Safari は独自の疑似要素で三角を描くため、これも別途消す(UI_SPEC 第11章) */
+.fold > summary::-webkit-details-marker { display: none; }
+
+/* 開閉インジケータ。border 2本を45度回した V 字。
+   transition は transform のみに限る(width/height を動かすと
+   再レイアウトが走る。transform は GPU 合成で済む) */
+.fold__chevron {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--c-text-sub);
+  border-bottom: 2px solid var(--c-text-sub);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform .3s ease;
+}
+.fold[open] > summary .fold__chevron {
+  transform: translateY(-20%) rotate(-135deg);
+}
+.fold > summary:hover .fold__chevron {
+  border-color: var(--c-accent);
+}
+
 /* ===== 背景の帯 =====
    全セクションが同色だと区切りが視覚的に消えるため、一段明るい帯を挟む
    (UI_SPEC 第7章)。tokens.css は変更せずここで定義する。
@@ -701,6 +743,19 @@
   line-height: 1.95;
   color: var(--c-text);
 }
+/* 折りたたむ側。閉じた状態でも見出しとメタ行は必ず見える。
+   タップ領域はここで 44px 以上を確保する(WCAG 2.5.5)。
+   中身(見出し+メタ)だけで既に超えるが、内容が短くなっても
+   割らないよう min-height を明示しておく */
+.decision__summary {
+  min-height: 44px;
+  padding-block: 2px;
+}
+.decision--fold .decision__body {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--c-border-soft);
+}
 .decisions__more {
   margin-top: var(--sp-3);
   max-width: var(--maxw-text);
@@ -762,6 +817,22 @@
   color: var(--c-text-weak);
   font-size: 11px;
   white-space: nowrap;
+}
+/* 使用技術の折りたたみ。閉じた状態では小見出しだけが見える。
+   小見出しは h3 のままなので、見出しの階層は畳んでも変わらない */
+.recruit__fold {
+  margin-top: var(--sp-4);
+}
+/* .fold > summary の display: block を上書きするため、
+   セレクタの詳細度を合わせている */
+.fold > .recruit__fold-summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+/* 小見出し側の上マージンは details 側が持つ(二重に空けない) */
+.recruit__fold-summary .recruit__sub {
+  margin-top: 0;
 }
 .recruit__stack {
   margin-top: var(--sp-2);
