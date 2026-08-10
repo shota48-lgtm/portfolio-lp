@@ -40,15 +40,30 @@ function useCountUp(ref, target) {
   }, [ref, target])
 }
 
-function Stat({ num, label }) {
+// 数値/ラベル/説明文の3行。数字とラベルだけでは何を数えたのか伝わらない。
+// href を持つ項目(DECISIONS のみ)は該当セクションへのリンクにし、
+// アクセント色で1つだけ強調する。4つ全部を強調すると、どれも強調にならない
+function Stat({ num, label, desc, href }) {
   const ref = useRef(null)
   useCountUp(ref, num)
-  return (
-    <div className="hero-stat">
+
+  const inner = (
+    <>
       {/* HTMLに最終値を書いておく(JS無効時でも数値が見えるように) */}
       <span className="hero-stat__num" ref={ref}>{num}</span>
       <span className="hero-stat__label">{label}</span>
-    </div>
+      <span className="hero-stat__desc">{desc}</span>
+    </>
+  )
+
+  if (!href) {
+    return <div className="hero-stat">{inner}</div>
+  }
+  return (
+    <a className="hero-stat hero-stat--link" href={href}>
+      {inner}
+      <span className="hero-stat__more" aria-hidden="true">抜粋を読む →</span>
+    </a>
   )
 }
 
@@ -112,9 +127,10 @@ export default function Hero() {
         <div className="hero__text">
           <p className="hero__label">6 PRODUCTS SHIPPED</p>
           <h1 className="hero__title">
-            {/* AI のみグラデーションテキスト。@supports フォールバックはCSS側 */}
-            <span className="grad">AI</span>も決済も、<br />
-            ひとりで作る。
+            {/* 「測って」のみグラデーションテキスト。
+                @supports フォールバックはCSS側 */}
+            <span className="grad">測って</span>から、<br />
+            言い切る。
           </h1>
           {/* ヒーローの本文は1段落のみ(作業310)。ファーストビューは
               3秒で通過する場所であり、2段落は読ませる量として重い。
@@ -145,7 +161,13 @@ export default function Hero() {
 
       <div className="hero__stats">
         {stats.map((s) => (
-          <Stat key={s.label} num={s.num} label={s.label} />
+          <Stat
+            key={s.label}
+            num={s.num}
+            label={s.label}
+            desc={s.desc}
+            href={s.href}
+          />
         ))}
       </div>
     </header>

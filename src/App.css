@@ -56,6 +56,7 @@
   display: flex;
   align-items: center;
   gap: var(--sp-1);
+  text-decoration: none;
 }
 .topbar__avatar {
   width: 28px;
@@ -72,14 +73,88 @@
   font-size: 13px;
   color: var(--c-text-sub);
 }
-.topbar__cta {
+/* ===== アンカーナビ =====
+   開閉は details に持たせ、JavaScript なしで動く。
+   モバイルは summary(ハンバーガー)で開閉し、
+   PC は summary を隠してパネルを常時表示に上書きする。
+   details の子要素は display の指定で表示状態を上書きできる */
+.nav > summary {
+  list-style: none;              /* Chrome/Firefox/Edge の三角を消す */
+  cursor: pointer;
+}
+.nav > summary::-webkit-details-marker { display: none; }  /* Safari 用 */
+
+.nav__toggle {
+  /* タップ領域 44px 以上(WCAG 2.5.5) */
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+}
+.nav__toggle-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18px;
+}
+.nav__toggle-bars i {
+  display: block;
+  height: 1.5px;
+  background: var(--c-text);
+  border-radius: 2px;
+}
+
+/* モバイル: バーの下に開く面。
+   背景は半透明+backdrop-filter でなく、完全な不透明にする。
+   メニューは下のコンテンツを読ませる場所ではないので透かす利得がなく、
+   ヒーローの見出しが透けると項目が読めなくなる。
+   2026-08-10 の撮影では rgba(...,.97)+blur で実際に背後の h1 が透けた
+   (計算値は不透明だったため、backdrop-filter の合成側の問題と判断した)。
+   背景色1色なら、どの環境でも同じ見え方になる */
+.nav__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .5);
+  padding: var(--sp-2) 24px var(--sp-3);
+}
+.nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav__link {
+  display: block;
+  padding: 11px 0;              /* 行の高さ 44px 以上 */
+  font-size: 14px;
+  color: var(--c-text-sub);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav__link:hover { color: var(--c-text); }
+.nav__cta {
+  display: inline-block;
+  margin-top: var(--sp-1);
   font-size: 13px;
   font-weight: 500;
   color: var(--c-bg);
   background: var(--c-accent);
   border-radius: var(--r-pill);
-  padding: 8px 20px;
+  padding: 10px 24px;
   text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.nav__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(251, 113, 133, .32);
 }
 
 /* ===== ヒーロー ===== */
@@ -304,6 +379,29 @@
   letter-spacing: .13em;
   color: var(--c-text-weak);
 }
+/* 数字とラベルだけでは何を数えたのか伝わらないため、説明を1行足す。
+   ラベル(英字)より説明(日本語)の方が実際には読まれるので、
+   色は text-weak でなく text-sub にして一段手前に置く */
+.hero-stat__desc {
+  margin-top: -4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--c-text-sub);
+}
+/* DECISIONS のみリンク。4つ全部を強調すると、どれも強調にならない */
+.hero-stat--link {
+  text-decoration: none;
+  transition: color .15s;
+}
+.hero-stat--link .hero-stat__num,
+.hero-stat--link .hero-stat__label {
+  color: var(--c-accent);
+}
+.hero-stat__more {
+  font-size: 11px;
+  color: var(--c-accent);
+}
+.hero-stat--link:hover .hero-stat__more { text-decoration: underline; }
 
 /* ===== 作品セクション(292) ===== */
 .works-section {
@@ -312,31 +410,29 @@
   padding: var(--sp-6) 24px 0;
 }
 
-.filters {
-  display: flex;
-  gap: var(--sp-1);
-  flex-wrap: wrap;
-  margin-top: var(--sp-3);
-  padding: 0;
-  list-style: none;
+/* カテゴリ絞り込み(.filters)は廃止。作品6件を2グループに分けたことで、
+   絞り込みとグループ分けが同じ「並べ替え」を二重に担う形になっていた。
+   6件はスクロールで全部見える量であり、押さないと全体像が出ないUIは
+   件数が少ないほど損になる */
+
+/* ===== 作品のグループ ===== */
+.works-group {
+  margin-top: var(--sp-5);
 }
-.filter {
-  border: 1px solid var(--c-border);
-  background: transparent;
-  color: var(--c-text-sub);
-  font-family: var(--sans);
-  font-size: 12px;
-  padding: 8px 18px;
-  border-radius: var(--r-pill);
-  cursor: pointer;
-  transition: background-color .15s, color .15s, border-color .15s;
+.works-group__head {
+  border-left: 2px solid var(--c-accent);
+  padding-left: var(--sp-2);
 }
-.filter:hover { border-color: var(--c-accent); }
-.filter[aria-pressed="true"] {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  color: var(--c-bg);
+.works-group__title {
+  font-size: 15px;
   font-weight: 500;
+  line-height: 1.5;
+}
+.works-group__lead {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--c-text-weak);
 }
 
 .works {
@@ -430,6 +526,23 @@
   border-radius: var(--r-sm);
   padding: 2px 9px;
 }
+/* compact で省いた技術タグの件数。枠線を出すと省略が1件の技術に
+   見えるため、枠なしにして「+2」だけを添える */
+.card__tech-more {
+  border: none !important;
+  padding-left: 0 !important;
+}
+
+/* compact(グループ2): カードを小さくする以上、中の要素も減らす。
+   要約は2行で切る。3行目以降は一覧では読まれず、
+   高さだけが揃わなくなる */
+.card--compact .card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .card__links {
   display: flex;
   gap: var(--sp-2);
@@ -517,6 +630,37 @@
 
 /* ===== PC(768px〜) ===== */
 @media (min-width: 768px) {
+  /* ナビ: ハンバーガーを隠し、パネルを常時表示に上書きする。
+     details の open 状態に関係なく開いた見た目にする。
+     閉じた details の中身をどう隠すかはブラウザで実装が分かれるため、
+     3通りとも打ち消す必要がある(2026-08-10 実測。display の指定だけでは
+     Chrome で幅0になり、ナビがDOMにあるのに描画されなかった):
+       1. display で隠す実装(Firefox / Safari / 旧Chrome) → display を上書き
+       2. content-visibility で隠す実装 → 同プロパティを visible に
+       3. ::details-content 疑似要素を持つ実装(Chrome 131〜) → 同上
+     3 は非対応ブラウザではセレクタごと無視されるため、独立した規則にする */
+  .nav__toggle { display: none; }
+  .nav__panel {
+    position: static;
+    display: block;
+    content-visibility: visible;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .nav__list {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .nav__link { padding: 0; font-size: 13px; }
+  .nav__cta { margin-top: 0; padding: 8px 20px; }
+
+  .works-group { margin-top: var(--sp-6); }
+  .works-group__title { font-size: 18px; }
+  .works-group__lead { font-size: 13px; }
+
   .hero__inner {
     flex-direction: row;
     align-items: center;
@@ -547,6 +691,17 @@
   .card__body { padding: var(--sp-4); }
   .card__summary { font-size: 14px; }
   .bottom-cta { margin-top: var(--sp-8); }
+}
+
+/* Chrome 131〜 は details の中身を ::details-content で包み、
+   content-visibility: hidden で隠す。子要素側の display 指定では
+   打ち消せないため、疑似要素そのものを開いた状態にする。
+   非対応ブラウザはこの規則ごと無視する(上の display 指定で足りるため問題ない) */
+@media (min-width: 768px) {
+  .nav::details-content {
+    content-visibility: visible;
+    display: contents;
+  }
 }
 
 /* PC(1280px〜): 手前をさらに拡大 */
