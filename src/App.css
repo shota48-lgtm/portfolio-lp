@@ -676,13 +676,21 @@
   font-size: 15px;
   font-weight: 500;
 }
+/* 日付と掲載理由。11px + text-weak では 4.54:1 と、AA(4.5:1)を
+   満たしてはいるが余裕が 0.04 しかなかった(2026-08-10 実測)。
+   4.5:1 は 18px未満の文字に対する基準であり、11px はその中でも
+   最も厳しい側にある。基準を通ることと読みやすいことは別なので、
+   サイズを 12px に上げたうえで色も text-sub に上げる。
+   掲載理由は「なぜこの記録を載せたか」という中身であって、
+   装飾ではない。読ませる前提の値にする */
 .decision__meta {
-  margin-top: 4px;
+  margin-top: 5px;
   display: flex;
   gap: var(--sp-1);
   flex-wrap: wrap;
-  font-size: 11px;
-  color: var(--c-text-weak);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--c-text-sub);
 }
 .decision__reason::before {
   content: "— ";
@@ -711,17 +719,17 @@
   max-width: var(--maxw-text);
   margin-inline: auto;
 }
-.recruit__status {
-  margin-top: var(--sp-2);
-  font-size: 14px;
-  line-height: 1.95;
-  color: var(--c-text-sub);
-}
 .recruit__sub {
   margin-top: var(--sp-4);
   font-size: 13px;
   font-weight: 500;
   color: var(--c-accent);
+}
+/* 見出しの直後に来る小見出しだけは間を詰める。
+   sp-4 は小見出し同士の間隔として決めた値で、
+   h2 の直下に置くと空きすぎる */
+.recruit__sub--first {
+  margin-top: var(--sp-3);
 }
 .recruit__points {
   margin-top: var(--sp-2);
