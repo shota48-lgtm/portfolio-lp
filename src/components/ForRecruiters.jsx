@@ -77,8 +77,17 @@ export default function ForRecruiters() {
           ))}
         </ul>
 
-        <h3 className="recruit__sub">使用技術</h3>
-        <dl className="recruit__stack">
+        {/* 使用技術は畳む。見出しだけで中身が何かは分かるため、
+            閉じていても存在に気づかれない心配がない。
+            要件との照合に使うもので通読する一覧ではなく、
+            開いたままだと直下の連絡先が297px(375px幅)押し下げられる。
+            採用担当が最も必要とするものが、通読しない一覧の後ろにある */}
+        <details className="fold recruit__fold">
+          <summary className="recruit__fold-summary">
+            <h3 className="recruit__sub">使用技術</h3>
+            <span className="fold__chevron" aria-hidden="true" />
+          </summary>
+          <dl className="recruit__stack">
           {STACK.map((s) => (
             <div key={s.key} className="recruit__stack-row">
               <dt>{s.key}</dt>
@@ -91,7 +100,8 @@ export default function ForRecruiters() {
               </dd>
             </div>
           ))}
-        </dl>
+          </dl>
+        </details>
 
         <h3 className="recruit__sub">連絡先</h3>
         {/* メールアドレスは書かない。スクレイピングの対象になるため。
