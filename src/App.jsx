@@ -7,7 +7,6 @@ import Skills from './components/Skills.jsx'
 import Services from './components/Services.jsx'
 import Decisions from './components/Decisions.jsx'
 import Contact from './components/Contact.jsx'
-import ForRecruiters from './components/ForRecruiters.jsx'
 import Footer from './components/Footer.jsx'
 
 // スクロール連動の表示(作業294-1/294-2)。
@@ -79,7 +78,6 @@ function App() {
       </div>
 
       <Contact />
-      <ForRecruiters />
       <Footer />
     </div>
   )

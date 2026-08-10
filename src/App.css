@@ -764,129 +764,6 @@
   color: var(--c-text-sub);
 }
 
-/* ===== 採用のご担当者へ ===== */
-.recruit {
-  margin-top: var(--sp-7);
-  padding: var(--sp-6) 24px;
-  border-top: 1px solid var(--c-border-soft);
-}
-.recruit__inner {
-  max-width: var(--maxw-text);
-  margin-inline: auto;
-}
-.recruit__sub {
-  margin-top: var(--sp-4);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--c-accent);
-}
-/* 見出しの直後に来る小見出しだけは間を詰める。
-   sp-4 は小見出し同士の間隔として決めた値で、
-   h2 の直下に置くと空きすぎる */
-.recruit__sub--first {
-  margin-top: var(--sp-3);
-}
-.recruit__points {
-  margin-top: var(--sp-2);
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--sp-1);
-}
-.recruit__points li {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-1);
-  flex-wrap: wrap;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--c-border-soft);
-  font-size: 13px;
-}
-.recruit__points a {
-  color: var(--c-accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-.recruit__points a:hover { text-decoration: underline; }
-.recruit__point-detail {
-  color: var(--c-text-sub);
-  font-size: 12px;
-}
-.recruit__point-where {
-  margin-left: auto;
-  color: var(--c-text-weak);
-  font-size: 11px;
-  white-space: nowrap;
-}
-/* 使用技術の折りたたみ。閉じた状態では小見出しだけが見える。
-   小見出しは h3 のままなので、見出しの階層は畳んでも変わらない */
-.recruit__fold {
-  margin-top: var(--sp-4);
-}
-/* .fold > summary の display: block を上書きするため、
-   セレクタの詳細度を合わせている */
-.fold > .recruit__fold-summary {
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-}
-/* 小見出し側の上マージンは details 側が持つ(二重に空けない) */
-.recruit__fold-summary .recruit__sub {
-  margin-top: 0;
-}
-.recruit__stack {
-  margin-top: var(--sp-2);
-  display: grid;
-  gap: var(--sp-2);
-}
-.recruit__stack-row {
-  display: grid;
-  grid-template-columns: 92px 1fr;
-  gap: var(--sp-1);
-  align-items: start;
-}
-.recruit__stack dt {
-  font-size: 11px;
-  letter-spacing: .08em;
-  color: var(--c-text-weak);
-  padding-top: 3px;
-}
-.recruit__stack dd { margin: 0; }
-.recruit__stack ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.recruit__stack li {
-  font-size: 11px;
-  color: var(--c-text-sub);
-  border: 1px solid var(--c-border-soft);
-  border-radius: var(--r-sm);
-  padding: 2px 9px;
-}
-.recruit__contact {
-  margin-top: var(--sp-2);
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: var(--sp-1);
-  font-size: 13px;
-}
-.recruit__contact li {
-  display: flex;
-  gap: var(--sp-2);
-  flex-wrap: wrap;
-}
-.recruit__contact-key {
-  min-width: 118px;
-  color: var(--c-text-weak);
-  font-size: 12px;
-}
-.recruit__contact a { color: var(--c-accent); }
-
 /* ===== 依頼できること ===== */
 .services {
   max-width: var(--maxw);
@@ -943,12 +820,6 @@
   font-size: 14px;
   color: var(--c-text-sub);
 }
-.bottom-cta__actions {
-  display: flex;
-  gap: var(--sp-2);
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 /* ===== フッター ===== */
 .foot {
@@ -965,6 +836,14 @@
   line-height: 1.7;
   color: var(--c-text-weak);
 }
+/* 連絡先の1行。節を作らずここに集約しているため、
+   リンクだけはアクセント色にして拾えるようにする。
+   本文まで明るくすると、フッターが本文として読まれてしまう */
+.foot__contact a {
+  color: var(--c-accent);
+  text-decoration: none;
+}
+.foot__contact a:hover { text-decoration: underline; }
 
 /* ===== PC(768px〜) ===== */
 @media (min-width: 768px) {
@@ -1006,7 +885,6 @@
   .decisions__list { gap: var(--sp-3); }
   .decision { padding: var(--sp-4); }
   .decision__title { font-size: 17px; }
-  .recruit { padding-block: var(--sp-7); }
 
   .hero__inner {
     flex-direction: row;
