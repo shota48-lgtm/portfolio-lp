@@ -11,14 +11,24 @@ export default function Contact() {
         <p className="bottom-cta__sub">
           何をどう作るかの整理からお手伝いします。まずは課題をお聞かせください。
         </p>
-        <a
-          className="btn btn--primary"
-          href={profile.crowdworksUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          相談する
-        </a>
+        {/* 読者が2種類いるため導線も2つ出す。
+            発注者向け(外部・主CTA)と採用担当向け(ページ内・副次)。
+            採用向けの中身を CONTACT の中に混ぜると、
+            発注を検討している読者に不要な情報が挟まる。
+            直後の独立セクションに置き、ここからは入口だけ出す */}
+        <div className="bottom-cta__actions">
+          <a
+            className="btn btn--primary"
+            href={profile.crowdworksUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            相談する
+          </a>
+          <a className="btn btn--ghost" href="#for-recruiters">
+            採用のご担当者へ
+          </a>
+        </div>
       </div>
     </section>
   )

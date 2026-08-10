@@ -555,6 +555,259 @@
 }
 .card__link:hover { text-decoration: underline; }
 
+/* ===== 背景の帯 =====
+   全セクションが同色だと区切りが視覚的に消えるため、一段明るい帯を挟む
+   (UI_SPEC 第7章)。tokens.css は変更せずここで定義する。
+
+   色の決め方: --c-surface(#121014)まで上げると、この帯の中で使う
+   --c-text-weak(#827B75)とのコントラストが 4.54:1 まで落ちて
+   AA の 4.5:1 にほとんど余裕がなくなる。#0F0D0F なら 4.65:1 を保てる。
+   帯として認識できる最小限の差に留め、余裕を残す方を取った */
+.band {
+  --c-band: #0F0D0F;
+  background: var(--c-band);
+  border-block: 1px solid var(--c-border-soft);
+  margin-top: var(--sp-7);
+  padding-block: var(--sp-6);
+}
+/* 帯の中のセクションは自前の上マージンを持たない(帯が余白を持つため) */
+.band > .services { margin-top: var(--sp-6); }
+.band > *:first-child { margin-top: 0; }
+
+/* ===== できること ===== */
+.skills__inner,
+.decisions__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+.skills__lead {
+  margin-top: var(--sp-2);
+  max-width: var(--maxw-text);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--c-text-sub);
+}
+.skills__list {
+  margin-top: var(--sp-4);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+}
+.skill {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+}
+.skill__label {
+  font-size: 15px;
+  font-weight: 500;
+}
+.skill__detail {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--c-text-sub);
+}
+/* 根拠の作品名。この行があることが、この節を他と分ける唯一の点なので、
+   補助情報の見た目にしすぎない(text-weak まで落とさない) */
+.skill__works {
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-1);
+  border-top: 1px dashed var(--c-border-soft);
+  font-size: 12px;
+  color: var(--c-text-sub);
+}
+.skill__works-key {
+  display: inline-block;
+  margin-right: var(--sp-1);
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--c-accent);
+}
+.skills__back {
+  margin-top: var(--sp-3);
+  font-size: 12px;
+  color: var(--c-text-sub);
+}
+.skills__back a { color: var(--c-accent); }
+
+/* ===== 判断の記録 =====
+   文章量があるため本文は16px。他の節(14px)より大きくするのは、
+   ここだけ「読ませる」節だから(UI_SPEC 第3章の本文16pxに戻す) */
+.decisions__lead {
+  margin-top: var(--sp-2);
+  max-width: var(--maxw-text);
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--c-text-sub);
+}
+.decisions__list {
+  margin-top: var(--sp-4);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+  max-width: var(--maxw-text);
+}
+.decision {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-soft);
+  border-left: 2px solid var(--c-accent);
+  border-radius: var(--r-md);
+  padding: var(--sp-3);
+}
+.decision__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+.decision__id {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--c-accent);
+  font-feature-settings: "tnum" 1;
+}
+.decision__title {
+  font-size: 15px;
+  font-weight: 500;
+}
+.decision__meta {
+  margin-top: 4px;
+  display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--c-text-weak);
+}
+.decision__reason::before {
+  content: "— ";
+}
+.decision__body {
+  margin-top: var(--sp-2);
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--c-text);
+}
+.decisions__more {
+  margin-top: var(--sp-3);
+  max-width: var(--maxw-text);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--c-text-sub);
+}
+
+/* ===== 採用のご担当者へ ===== */
+.recruit {
+  margin-top: var(--sp-7);
+  padding: var(--sp-6) 24px;
+  border-top: 1px solid var(--c-border-soft);
+}
+.recruit__inner {
+  max-width: var(--maxw-text);
+  margin-inline: auto;
+}
+.recruit__status {
+  margin-top: var(--sp-2);
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--c-text-sub);
+}
+.recruit__sub {
+  margin-top: var(--sp-4);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-accent);
+}
+.recruit__points {
+  margin-top: var(--sp-2);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-1);
+}
+.recruit__points li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--c-border-soft);
+  font-size: 13px;
+}
+.recruit__points a {
+  color: var(--c-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.recruit__points a:hover { text-decoration: underline; }
+.recruit__point-detail {
+  color: var(--c-text-sub);
+  font-size: 12px;
+}
+.recruit__point-where {
+  margin-left: auto;
+  color: var(--c-text-weak);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.recruit__stack {
+  margin-top: var(--sp-2);
+  display: grid;
+  gap: var(--sp-2);
+}
+.recruit__stack-row {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: var(--sp-1);
+  align-items: start;
+}
+.recruit__stack dt {
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--c-text-weak);
+  padding-top: 3px;
+}
+.recruit__stack dd { margin: 0; }
+.recruit__stack ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.recruit__stack li {
+  font-size: 11px;
+  color: var(--c-text-sub);
+  border: 1px solid var(--c-border-soft);
+  border-radius: var(--r-sm);
+  padding: 2px 9px;
+}
+.recruit__contact {
+  margin-top: var(--sp-2);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-1);
+  font-size: 13px;
+}
+.recruit__contact li {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+.recruit__contact-key {
+  min-width: 118px;
+  color: var(--c-text-weak);
+  font-size: 12px;
+}
+.recruit__contact a { color: var(--c-accent); }
+
 /* ===== 依頼できること ===== */
 .services {
   max-width: var(--maxw);
@@ -611,6 +864,12 @@
   font-size: 14px;
   color: var(--c-text-sub);
 }
+.bottom-cta__actions {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 /* ===== フッター ===== */
 .foot {
@@ -660,6 +919,15 @@
   .works-group { margin-top: var(--sp-6); }
   .works-group__title { font-size: 18px; }
   .works-group__lead { font-size: 13px; }
+
+  .band { padding-block: var(--sp-7); }
+  .skills__list { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+  .skills__lead, .decisions__lead { font-size: 14px; }
+  .skill { padding: var(--sp-4); }
+  .decisions__list { gap: var(--sp-3); }
+  .decision { padding: var(--sp-4); }
+  .decision__title { font-size: 17px; }
+  .recruit { padding-block: var(--sp-7); }
 
   .hero__inner {
     flex-direction: row;

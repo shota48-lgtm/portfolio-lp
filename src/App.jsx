@@ -3,8 +3,11 @@ import './App.css'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
 import Works from './components/Works.jsx'
+import Skills from './components/Skills.jsx'
 import Services from './components/Services.jsx'
+import Decisions from './components/Decisions.jsx'
 import Contact from './components/Contact.jsx'
+import ForRecruiters from './components/ForRecruiters.jsx'
 import Footer from './components/Footer.jsx'
 
 // スクロール連動の表示(作業294-1/294-2)。
@@ -61,8 +64,22 @@ function App() {
       <Nav />
       <Hero />
       <Works />
-      <Services />
+
+      {/* 背景を一段明るくする帯を2箇所置く(UI_SPEC 第7章:
+          全セクションを同色にすると区切りが視覚的に消える)。
+          帯1は「何ができるか」を答える2節、帯2は判断の記録。
+          暗→明→暗→明→暗 の並びになり、9セクションでも切れ目が残る */}
+      <div className="band">
+        <Skills />
+        <Services />
+      </div>
+
+      <div className="band">
+        <Decisions />
+      </div>
+
       <Contact />
+      <ForRecruiters />
       <Footer />
     </div>
   )
