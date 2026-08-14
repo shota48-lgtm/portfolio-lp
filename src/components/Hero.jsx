@@ -125,7 +125,7 @@ export default function Hero() {
     <header className="hero">
       <div className="hero__inner">
         <div className="hero__text">
-          <p className="hero__label">6 PRODUCTS SHIPPED</p>
+          <p className="hero__label">7 PRODUCTS SHIPPED</p>
           <h1 className="hero__title">
             {/* 「測って」のみグラデーションテキスト。
                 @supports フォールバックはCSS側 */}
