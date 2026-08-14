@@ -9,12 +9,12 @@
 // repo はリポジトリ名であって作品名ではないため、別に持たせる。
 export const projects = [
   {
-    title: "チャットと勤怠をつないだ仮想オフィス tenko",
+    title: "勤怠とつながる仮想オフィス tenko",
     repo: "tenko",
     short: "tenko",
     group: "app",
     summary:
-      "チャットと勤怠をつないだ仮想オフィス。ドット絵の村に社員のアバターが並び、在席状態・今日やること・話しかけ可否が一目で分かります。発言から勤怠の下書きが立ち、確定は必ず人間が押します。WebSocket は通知だけを運び、状態は必ずDBに問い合わせる設計にしました。未ログインでも村を見られます。",
+      "ドット絵の村に社員のアバターが並び、在席状態・今日やること・話しかけ可否が一目で分かります。発言から勤怠の下書きが立ち、確定は必ず人間が押します。",
     tech: ["Next.js", "TypeScript", "WebSocket (Node.js)", "PostgreSQL (Neon)", "Auth.js v5"],
     image: "/works/tenko.jpg",
     url: "https://tenko-eight.vercel.app",

@@ -155,7 +155,9 @@ export default function Hero() {
           {STACK.map((s) => (
             <BrowserFrame key={s.src} src={s.src} pos={s.pos} front={s.pos === 'front'} />
           ))}
-          <p className="hero__visual-label" aria-hidden="true">06 / AEGIS</p>
+          {/* 数字は作品数、名前は手前に出しているスクリーンショットの作品名。
+              巡回はしない（STACK の2枚が固定）。作品が増えたら数字を直す */}
+          <p className="hero__visual-label" aria-hidden="true">07 / AEGIS</p>
         </div>
       </div>
 
