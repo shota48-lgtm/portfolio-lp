@@ -9,6 +9,19 @@
 // repo はリポジトリ名であって作品名ではないため、別に持たせる。
 export const projects = [
   {
+    title: "チャットと勤怠をつないだ仮想オフィス tenko",
+    repo: "tenko",
+    short: "tenko",
+    group: "app",
+    summary:
+      "チャットと勤怠をつないだ仮想オフィス。ドット絵の村に社員のアバターが並び、在席状態・今日やること・話しかけ可否が一目で分かります。発言から勤怠の下書きが立ち、確定は必ず人間が押します。WebSocket は通知だけを運び、状態は必ずDBに問い合わせる設計にしました。未ログインでも村を見られます。",
+    tech: ["Next.js", "TypeScript", "WebSocket (Node.js)", "PostgreSQL (Neon)", "Auth.js v5"],
+    image: "/works/tenko.jpg",
+    url: "https://tenko-eight.vercel.app",
+    github: "https://github.com/shota48-lgtm/tenko",
+    status: "本番稼働中",
+  },
+  {
     title: "LLM出力の回帰テスト基盤 aegis",
     repo: "aegis",
     short: "aegis",
@@ -54,7 +67,7 @@ export const projects = [
     short: "予約管理",
     group: "app",
     summary:
-      "予約する側は会員登録なしで使えます。店側だけが顧客情報を見られる権限設計にしています。",
+      "公開の予約ページは会員登録なしで使えます。店側だけが顧客情報を見られる権限設計にしており、リンク先のトップは店舗管理者向けのログイン画面です。",
     tech: ["React", "Vite", "Supabase", "Tailwind CSS"],
     image: "/works/reservation-app.png",
     url: "https://reservation-app-omega-blond.vercel.app",
@@ -80,12 +93,14 @@ export const projects = [
     short: "就業規則QA",
     group: "app",
     summary:
-      "就業規則について質問すると、根拠となる条文を示して回答します(RAG)。答えの正確さは50問の評価で測って公開。同じ条文検索は MCP サーバーとしても提供し、AIエージェントから直接呼び出せます。",
+      "就業規則について質問すると、根拠となる条文を示して回答します(RAG)。答えの正確さは50問の評価で測って公開。同じ条文検索は MCP サーバーとしても提供し、AIエージェントから直接呼び出せます。無料枠のため、しばらくアクセスがないとスリープします。開いて「Yes, get this app back up!」を押すと十数秒で起動します。",
     tech: ["Python", "Streamlit", "FAISS", "Gemini API", "MCP"],
     image: "/works/rag-kitei-qa.png",
     url: "https://rag-kitei-demo.streamlit.app/",
     github: "https://github.com/shota48-lgtm/rag-kitei-qa",
-    status: "本番稼働中",
+    // 他の6件と違い、無料枠のため無アクセスが続くとスリープする。
+    // 「本番稼働中」とだけ書くと、Zzzz 画面を見た人には嘘になる
+    status: "本番稼働中(スリープあり)",
   },
 ];
 
@@ -102,9 +117,11 @@ export const profile = {
   crowdworksHandle: "Tofu_shota48",
 };
 
-// stats の出典(2026-08-10 実測。判断記録の追記に伴い再計測)
-//   6   = 本番稼働中のアプリ数(aegis / ablens / ec-app / reservation-app /
-//         style-diagnosis-app / rag-kitei-qa)
+// stats の出典(2026-08-10 実測。判断記録の追記に伴い再計測。
+//              2026-08-13 tenko の公開に伴い PRODUCTS と DOMAINS を +1)
+//   7   = 本番稼働中のアプリ数(tenko / aegis / ablens / ec-app /
+//         reservation-app / style-diagnosis-app / rag-kitei-qa)
+//         rag-kitei-qa は無料枠のためスリープするが、起こせば動くので数に含める
 //   182 = ablens の自動テスト件数(単体168 + 統合14。npm run test:all の実行結果)
 //         aegis には単体テストが存在しないため増えていない。
 //         回帰検出は持つが別の指標であり、数字を増やすために定義を変えない。
@@ -114,17 +131,18 @@ export const profile = {
 //         見出しの階層が両者で異なるため、同じパターンでは数えられない。
 //         前回の161件から+3は J207〜J209 の追記による。
 //         この数は開発が進むたびに増えるため、LPを更新する際は必ず測り直す)
-//   6   = 対応ドメイン数(決済 / 予約 / 外部API / AI文書検索 / A/Bテスト計測 /
-//         AI品質保証)
+//   7   = 対応ドメイン数(決済 / 予約 / 外部API / AI文書検索 / A/Bテスト計測 /
+//         AI品質保証 / 勤怠・在席管理)
+//         最後の1つが tenko。既存6領域のどれにも当てはまらないため領域を1つ足した
 //
 // desc は数字だけでは何を数えたのか伝わらないため付ける1行説明。
 // href を持つのは DECISIONS のみ(該当セクションが本ページ内にあるため)。
 // 大きな数字を4つ並べたうえで全部を強調すると、どれも強調にならない。
 export const stats = [
-  { num: 6, label: "PRODUCTS", desc: "本番稼働中" },
+  { num: 7, label: "PRODUCTS", desc: "本番稼働中" },
   { num: 182, label: "TESTS", desc: "自動テスト件数" },
   { num: 164, label: "DECISIONS", desc: "判断と撤回の記録", href: "#decisions" },
-  { num: 6, label: "DOMAINS", desc: "扱った領域" },
+  { num: 7, label: "DOMAINS", desc: "扱った領域" },
 ];
 
 export const services = [
